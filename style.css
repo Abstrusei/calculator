@@ -1,0 +1,69 @@
+/* Basic CSS reset */
+html {
+    box-sizing: border-box;
+    font-size: 16px;
+  }
+  
+  *, *:before, *:after {
+    box-sizing: inherit;
+  }
+  
+body, h1, h2, h3, h4, h5, h6, p, ol, ul {
+margin: 0;
+padding: 0;
+font-weight: normal;
+}
+
+ol, ul {
+list-style: none;
+}
+
+img {
+max-width: 100%;
+height: auto;
+}
+
+/* General */
+.container {
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.flex {
+    display: flex;
+}
+
+.h-center {
+    justify-content: center;
+}
+
+.v-center {
+    align-content: center;
+}
+
+/* Calculator Body */
+#calculator-body {
+    margin-top: 50px;
+    height: 80vh;
+    width: 35%;
+    border: 2px solid black;
+    border-radius: 20px;
+    background-color: black;
+
+}
+
+/* Answer Screen */
+#answer-screen {
+    margin: 18px;
+    height: 25%;
+    border: 2px solid black;
+    border-radius: 20px;
+    background-color: white;
+}
+
+/* Answer Screen */
+#keypad {
+    height: 65%;
+    border: 2px solid red;
+     
+}
