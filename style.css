@@ -73,7 +73,7 @@ height: auto;
     background-color: white;
 }
 
-#result {
+#display-value {
     font-size: 7rem;
     float: right;
     margin: 20px 10px 0 10px;
