@@ -41,11 +41,23 @@ height: auto;
     align-content: center;
 }
 
+.space-btwn {
+    justify-content: space-between;
+}
+
+.flex-wrap {
+    flex-wrap: wrap;
+}
+
+.d-block {
+    display: block;
+}
+
 /* Calculator Body */
 #calculator-body {
     margin-top: 50px;
     height: 80vh;
-    width: 35%;
+    width: 30vw;
     border: 2px solid black;
     border-radius: 20px;
     background-color: black;
@@ -57,13 +69,43 @@ height: auto;
     margin: 18px;
     height: 25%;
     border: 2px solid black;
-    border-radius: 20px;
+    /* border-radius: 20px; */
     background-color: white;
 }
 
-/* Answer Screen */
+#result {
+    font-size: 7rem;
+    float: right;
+    margin: 20px 10px 0 10px;
+}
+
+/* Keypad */
 #keypad {
+    margin: 0px 18px;
     height: 65%;
-    border: 2px solid red;
+    border: 2px solid white;
+    
      
+}
+
+.btn {
+    color: white;
+    font-size: 48px;
+    background-color: black;
+    width: 25%;
+    text-align: center;
+    border: 2px solid white;
+    cursor: pointer;
+}
+
+.action-btn {
+    background-color: #0477BF;
+}
+
+#clear-btn {
+    background-color: #D90416;
+}
+
+#equals-btn {
+    width: 100%;
 }

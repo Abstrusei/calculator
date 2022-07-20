@@ -10,11 +10,22 @@ function multiply(a, b) {
     return a * b; 
 }
 
-function divided(a, b) {
+function divide(a, b) {
     return a/b;
 }
 
 
-function operate() {
-    
+function operate(a, b, operator) {
+    if (operator == "+") {
+        return add(a, b);
+    }
+    if (operator == "-") {
+        return subtract(a, b);
+    }
+    if (operator == "*") {
+        return multiply(a, b);
+    }
+    if (operator == "/") {
+        return divide(a, b);
+    }
 }
