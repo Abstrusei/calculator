@@ -36,8 +36,8 @@ function operate(a, b, operator) {
     }
 }
 
-function isNumeric(num){
-    return !isNaN(num)
+function isNumeric(btn){
+    return !isNaN(btn);
 }
 
 function numericPress(btn) {
@@ -45,7 +45,11 @@ function numericPress(btn) {
         displayValue(btn);
         solution = btn;
     } else {
-        solution += btn;
+        if(isNaN(operandA)) {
+            solution += btn;
+        } else {
+            solution = btn;
+        }
         displayValue(solution);
     }
 }
@@ -53,17 +57,26 @@ function numericPress(btn) {
 function btnPress(e) {
     const btn = e.target.textContent;
 
-    // Numeric button pressed
+    // NOTE: CURRENTLY LIMITING THE "LENGTH" OF OPERANDS TO 4 E.G. 1000
     if (isNumeric(btn) && solution.length < 4) {
         numericPress(btn);
-    }
-
-    // Clear button pressed
-    if(btn == "AC") {
+    } else if (btn == "AC") {
         displayValue("0");
         solution = "0";
-    }
-    // alert(num + " pressed");
+    } else if (btn == "=") {
+        operandB = parseInt(solution);
+        solution = operate(operandA, operandB, operator).toString();
+        displayValue(solution);
+        console.log(`${operandA} ${operator} = ${operandB}`);
+    }  else if (btn == ".") {
+        alert(btn + " was pressed");
+    } else {
+        if (isNaN(operandA)) {
+            operandA = parseInt(solution);
+            operator = btn;
+        } 
+        console.log(`${operandA} ${operator}`);
+    }   
 }
 
 const btns = document.querySelectorAll(".btn");
