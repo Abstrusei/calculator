@@ -59,7 +59,7 @@ height: auto;
     margin-top: 50px;
     height: 80vh;
     width: 30vw;
-    /* min-width: 400px; */
+    min-width: 400px;
     border: 2px solid black;
     border-radius: 20px;
     background-color: black;
