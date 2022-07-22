@@ -3,7 +3,6 @@ let total = 0;
 let operandA;
 let operandB;
 let operator;
-let evaluated = false;
 
 function add(a, b) {
     return a + b; 
@@ -20,6 +19,8 @@ function multiply(a, b) {
 function divide(a, b) {
     return a/b;
 }
+
+
 
 function operate(a, b, operator) {
     if (operator == "+") {
@@ -59,7 +60,6 @@ function resetOnscreenValue() {
 function clearCalcualtor() {
     onscreenValue = "0";
     total = 0;
-    evaluated = false;
     displayValue(onscreenValue);
     resetOperand("a");
     resetOperand("b");
@@ -67,46 +67,39 @@ function clearCalcualtor() {
 }
 
 function numericPress(a) {
-    if (!evaluated) {
-        if(onscreenValue == "0") {
-            onscreenValue = a;
-        } else {
-            onscreenValue += a;
-        }
+    if(onscreenValue == "0") {
+        onscreenValue = a;
+        displayValue(onscreenValue);
     } else {
-        if(onscreenValue == "0") {
-            onscreenValue = a;
-        } else {
-            onscreenValue += a;
-        }
+        onscreenValue += a;
+        displayValue(onscreenValue);
     }
-    displayValue(onscreenValue);
 }
 
 function operatorPress(pressedOperator) {
+    if(isNaN(operator) || pressedOperator == operator) {
+        
+    }
+    
     operator = pressedOperator;
 
-    if (!evaluated) {
-        if (!isNumeric(operandA)) {
-            // operandA hasn't been filled
-            operandA = parseInt(onscreenValue);
-            total = parseInt(onscreenValue);
-        } else if (isNumeric(operandA) && isNaN(operandB)) {
-            // operandA HAS been filled  
-            operandB = parseInt(onscreenValue);
-            total = operate(total, operandB, operator);
-            displayValue(total);
-        } else {
-             // operandA AND operandB have been filled 
-            operandB = parseInt(onscreenValue);
-            total = operate(total, operandB, operator);
-            operandA = total;
-            displayValue(total);
-    
-            resetOperand("b");
-        }
-        // resetOnscreenValue();
-    } 
+    if (!isNumeric(operandA)) {
+        // operandA hasn't been filled
+        operandA = parseInt(onscreenValue);
+        total = parseInt(onscreenValue);
+    } else if (isNumeric(operandA) && isNaN(operandB)) {
+        // operandA HAS been filled  
+        operandB = parseInt(onscreenValue);
+        total = operate(total, operandB, operator);
+        displayValue(total);
+    } else {
+         // operandA AND operandB have been filled  
+        operandB = parseInt(onscreenValue);
+        total = operate(total, operandB, operator);
+        displayValue(total);
+
+        resetOperand("b");
+    }
     resetOnscreenValue();
 }
 
@@ -116,31 +109,61 @@ function equalsPress() {
         total = operate(total, operandB, operator);
         displayValue(total);
 
-        onscreenValue = total.toString();
-        operandA = total;
-        evaluated = true;
         resetOperand("b");
-    } else  {
-        // 5 + 5 + 5 
-        // if "=" pressed operandA = 15, operandB = nothing
+    } else {
         operandB = parseInt(onscreenValue);
         total = operate(total, operandB, operator);
-
-        operandA =  total;
         displayValue(total);
-
-        resetOperand("b");
     }
+    
+    // if(isNumeric(operandA) && isNaN(operandB)) {
+    //     operandB = parseInt(onscreenValue);
+    //     displayValue(operate(operandA, operandB, operator));
+    // }
+
+    // if(isNumeric(operandA) && isNumeric(operandB)) {
+    //     onscreenValue = operate(operandA, operandB, operator);
+    //     displayValue(onscreenValue);
+    //     operandA = parseInt(onscreenValue);
+    //     resetOperand("b");
+    // }
 }
+
+/* 
+    CASE 1 - 1 operation performed
+    -------
+    25 entered 
+    "+" pressed
+        25 = operandA
+    75 entered
+        75 = operandB
+    "=" pressed 
+        100 displayed
+
+    CASE 2 - 2 operation performed
+    -------
+    25 entered 
+    "+" pressed
+        operandA =25
+    75 entered
+        operandB = 75
+    "+" pressed
+        operandA = 75 + 25 = 100 
+        100 displayed
+    20 entered
+    "=" pressed 
+        operandB = 20
+        value = 100 + 20
+        120 displayed
+*/
+
 
 function btnPress(e) {
     const btn = e.target.textContent;
 
     // NOTE: CURRENTLY LIMITING THE "LENGTH" OF OPERANDS TO 4 E.G. 1000
-    if (isNumeric(btn)) {
-        if (onscreenValue.length < 5) {
-            numericPress(btn);
-        }
+    if (isNumeric(btn) && onscreenValue.length < 4) {
+        numericPress(btn);
     } else if (btn == "AC") {
         clearCalcualtor();
     } else if (btn == "=") {
