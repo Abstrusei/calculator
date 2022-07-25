@@ -116,7 +116,9 @@ function evaluate() {
 }
 
 function btnPress(e) {
-    const btn = e.target.textContent;
+    elementPressed = e.target
+    elementPressed.classList.toggle("activeBtn");
+    const btn = elementPressed.textContent;
     // NOTE: CURRENTLY LIMITING THE "LENGTH" OF OPERANDS TO 4 E.G. 1000
     if (isNumeric(btn)) {
         if (onscreenValue.length < 5) {
