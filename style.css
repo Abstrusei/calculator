@@ -94,6 +94,10 @@ height: auto;
     cursor: pointer;
 }
 
+.active-num-btn {
+    background-color: rgba(169, 169, 169, 0.94);
+}
+
 .action-btn {
     background-color: #0477BF;
 }
