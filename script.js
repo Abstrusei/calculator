@@ -3,6 +3,7 @@ let total = 0;
 let operandA;
 let operandB;
 let operator;
+let mostRecentPress;
 let equalsPressed = false;
 
 function add(a, b) {return a + b; }
@@ -43,6 +44,7 @@ function resetOnscreenValue() {
 }
 
 function clearCalcualtor() {
+    mostRecentPress = undefined;
     onscreenValue = "0";
     total = 0;
     equalsPressed = false;
@@ -57,6 +59,7 @@ function setOperator(a) {
 }
 
 function numericPress(a) {
+    mostRecentPress = "numeric";
     if (!equalsPressed) {
         if(onscreenValue == "0") {
             onscreenValue = a;
@@ -73,9 +76,17 @@ function numericPress(a) {
     displayValue(onscreenValue);
 }
 
+function operatorPressHelper(operator) {
+    if (recentPress) {
+        recentPress = operator;
+    }
+}
+
 function operatorPress(pressedOperator) {
-    if (!equalsPressed) {
-        if (operator == undefined || pressedOperator == operator) {
+    if(mostRecentPress == "operator"){
+        setOperator(pressedOperator);
+    } else if (!equalsPressed) {
+        if (operator == undefined) {
             setOperator(pressedOperator);
             if (operandA == undefined) {
                 operandA = parseInt(onscreenValue);
@@ -93,10 +104,12 @@ function operatorPress(pressedOperator) {
         }
         equalsPressed = false;
     }
+    mostRecentPress = "operator";
     resetOnscreenValue();
 }
 
 function equalsPress() {
+    mostRecentPress = "equals";
     evaluate();
     equalsPressed = true;
 }
@@ -131,7 +144,7 @@ function btnPress(e) {
     }  else if (btn == ".") {
         alert(btn + " was pressed");
     } else {
-        operatorPress(btn);
+        if (mostRecentPress != undefined) operatorPress(btn);
     }   
 }
 
