@@ -59,7 +59,7 @@ function setOperator(a) {
 }
 
 function numericPress(a) {
-    mostRecentPress = "numeric";
+    mostRecentPress = "number";
     if (!equalsPressed) {
         if(onscreenValue == "0") {
             onscreenValue = a;
@@ -109,9 +109,17 @@ function operatorPress(pressedOperator) {
 }
 
 function equalsPress() {
-    mostRecentPress = "equals";
-    evaluate();
-    equalsPressed = true;
+    if(isNumeric(operandA)) {
+        if (mostRecentPress == "operator") {
+            return;
+        }
+        mostRecentPress = "equals";
+        equalsPressed = true;
+        evaluate();
+
+        // evaluate();
+        // equalsPressed = true;
+    }
 }
 
 function evaluate() {
@@ -122,15 +130,20 @@ function evaluate() {
         onscreenValue = total.toString();
         operandA = total;
     } else  {
+        if (operandB == 0 && operator == "/") {
+            clearCalcualtor();
+            displayValue("Error");
+            return;
+        }
         operandA =  total;
         displayValue(total);
     }
     resetOperand("b");
 }
-
+ 
 function btnPress(e) {
-    elementPressed = e.target
-    elementPressed.classList.toggle("activeBtn");
+    let elementPressed = e.target
+    elementPressed.classList.add("activeBtn");
     const btn = elementPressed.textContent;
     // NOTE: CURRENTLY LIMITING THE "LENGTH" OF OPERANDS TO 4 E.G. 1000
     if (isNumeric(btn)) {
@@ -148,11 +161,21 @@ function btnPress(e) {
     }   
 }
 
+function removeTransition(e) {
+    if (e.propertyName != "background-color") return; 
+    this.classList.remove("activeBtn");
+}
+
 const btns = document.querySelectorAll(".btn");
-[...btns].forEach(btn => btn.addEventListener("click", btnPress));
+btns.forEach(btn => btn.addEventListener("click", btnPress));
+btns.forEach(btn => btn.addEventListener("transitionend", removeTransition));
 
 let valueDisplay = document.querySelector("#display-value")
 function displayValue(value) {
     valueDisplay.textContent = value;
 }
 
+window.addEventListener("keydown", (e) => {
+    let keyPressed = e.key;
+    if (isNumeric(keyPressed)) btnPress(e);
+});

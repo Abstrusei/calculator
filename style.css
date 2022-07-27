@@ -87,24 +87,15 @@ height: auto;
 .btn {
     color: white;
     font-size: 48px;
-    background-color: rgba(169, 169, 169, 0.74);
+    background-color: rgba(169, 169, 169, 0.548);
     width: 25%;
     text-align: center;
     border: 3px solid black;
     cursor: pointer;
+    transition: all 0.5s ease-in-out;
 }
 
-.activeBtn {
-    animation: activeBtn 0.5s ease-in-out;
-}
-
-@keyframes activeBtn {
-    0% {opacity: 1;}
-    50% {opacity: 0.7}
-    100% {opacity: 1;}
-}
-
-.action-btn {
+.operator-btn {
     background-color: #0477BF;
 }
 
@@ -115,3 +106,23 @@ height: auto;
 #equals-btn {
     width: 100%;
 }
+
+.activeBtn {
+    background-color: rgba(169, 169, 169, 0.836);
+}
+
+#clear-btn.activeBtn {
+    background-color: #ce4752;
+}
+
+.operator-btn.activeBtn {
+    background-color: white; 
+    color: #0477BF;
+}
+
+#equals-btn.activeBtn {
+    background-color: white; 
+    color: #0477BF;
+}
+
+
