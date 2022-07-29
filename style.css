@@ -92,7 +92,7 @@ height: auto;
     text-align: center;
     border: 3px solid black;
     cursor: pointer;
-    transition: all 0.5s ease-in-out;
+    transition: all 0.3s ease-in-out;
 }
 
 .operator-btn {
@@ -112,7 +112,7 @@ height: auto;
 }
 
 #clear-btn.activeBtn {
-    background-color: #ce4752;
+    background-color: #c9515b;
 }
 
 .operator-btn.activeBtn {

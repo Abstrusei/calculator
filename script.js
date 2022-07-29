@@ -1,6 +1,6 @@
 let onscreenValue = "0";
 let total = 0;
-let operandA;
+let operandA = 0;
 let operandB;
 let operator;
 let mostRecentPress;
@@ -29,7 +29,7 @@ function isNumeric(btn){
 
 function resetOperand(operandLetter) {
     if (operandLetter == "a") {
-        operandA = undefined;
+        operandA = 0;
     } else {
         operandB = undefined;
     }
@@ -59,13 +59,10 @@ function setOperator(a) {
 }
 
 function numericPress(a) {
-    mostRecentPress = "number";
-    if (!equalsPressed) {
-        if(onscreenValue == "0") {
-            onscreenValue = a;
-        } else {
-            onscreenValue += a;
-        }
+    mostRecentPress = "Number";
+    if (equalsPressed) {
+        clearCalcualtor();
+        onscreenValue = a;
     } else {
         if(onscreenValue == "0") {
             onscreenValue = a;
@@ -76,20 +73,20 @@ function numericPress(a) {
     displayValue(onscreenValue);
 }
 
-function operatorPressHelper(operator) {
-    if (recentPress) {
-        recentPress = operator;
-    }
-}
-
 function operatorPress(pressedOperator) {
-    if(mostRecentPress == "operator"){
+    let previousMostRecentPress = mostRecentPress;
+    mostRecentPress = "operator";
+    if(previousMostRecentPress == "operator" || previousMostRecentPress == undefined){
         setOperator(pressedOperator);
+        if (operandA == 0) {
+            operandA = parseFloat(onscreenValue);
+            total = operandA;
+        }
     } else if (!equalsPressed) {
         if (operator == undefined) {
             setOperator(pressedOperator);
-            if (operandA == undefined) {
-                operandA = parseInt(onscreenValue);
+            if (operandA == 0) {
+                operandA = parseFloat(onscreenValue);
                 total = operandA;
             } else {
                 evaluate();
@@ -104,7 +101,6 @@ function operatorPress(pressedOperator) {
         }
         equalsPressed = false;
     }
-    mostRecentPress = "operator";
     resetOnscreenValue();
 }
 
@@ -116,16 +112,13 @@ function equalsPress() {
         mostRecentPress = "equals";
         equalsPressed = true;
         evaluate();
-
-        // evaluate();
-        // equalsPressed = true;
     }
 }
 
 function evaluate() {
-    operandB = parseInt(onscreenValue);
+    operandB = parseFloat(onscreenValue);
     total = operate(total, operandB, operator);
-    if(isNumeric(operandA) && isNaN(operandB)) {
+    if(isNaN(operandB)) {
         displayValue(total);
         onscreenValue = total.toString();
         operandA = total;
@@ -140,25 +133,38 @@ function evaluate() {
     }
     resetOperand("b");
 }
+
+function addDecimalPoint() {
+    if (!(onscreenValue.includes("."))) {
+        onscreenValue += ".";
+        displayValue(onscreenValue);
+    }
+}
  
 function btnPress(e) {
-    let elementPressed = e.target
-    elementPressed.classList.add("activeBtn");
-    const btn = elementPressed.textContent;
-    // NOTE: CURRENTLY LIMITING THE "LENGTH" OF OPERANDS TO 4 E.G. 1000
+    let btn;
+    if (e.type == "keydown") {
+        btn = e.key;
+    } else {
+        let elementPressed = e.target
+        elementPressed.classList.add("activeBtn");
+        btn = elementPressed.textContent;
+    }
+    // NOTE: CURRENTLY LIMITING THE "LENGTH" OF OPERANDS TO 6 E.G. 1000
     if (isNumeric(btn)) {
-        if (onscreenValue.length < 5) {
+        if (onscreenValue.length < 6) {
             numericPress(btn);
         }
     } else if (btn == "AC") {
         clearCalcualtor();
     } else if (btn == "=") {
-        if (isNumeric(operandA)) equalsPress();
+        if (mostRecentPress != undefined) equalsPress();
     }  else if (btn == ".") {
-        alert(btn + " was pressed");
+        // alert(btn + " was pressed");
+        addDecimalPoint();
     } else {
-        if (mostRecentPress != undefined) operatorPress(btn);
-    }   
+        operatorPress(btn);
+    }  
 }
 
 function removeTransition(e) {
@@ -177,5 +183,7 @@ function displayValue(value) {
 
 window.addEventListener("keydown", (e) => {
     let keyPressed = e.key;
-    if (isNumeric(keyPressed)) btnPress(e);
+    if (isNumeric(keyPressed)) { 
+        btnPress(e);
+    }  
 });
