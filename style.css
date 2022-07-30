@@ -80,8 +80,9 @@ height: auto;
 
 /* Keypad */
 #keypad {
-    margin: 0px 18px;
+    padding: 0px 18px;
     height: 70%;
+    width: 100%;
 }
 
 .btn {
@@ -123,9 +124,4 @@ height: auto;
 #equals-btn.activeBtn {
     background-color: white; 
     color: #0477BF;
-}
-
-
-@media screen and (max-width: 600px) {
-    
 }
