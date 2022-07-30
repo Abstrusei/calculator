@@ -136,6 +136,7 @@ function evaluate() {
 
 function addDecimalPoint() {
     if (!(onscreenValue.includes("."))) {
+        if (mostRecentPress == "equals")  clearCalcualtor();
         onscreenValue += ".";
         displayValue(onscreenValue);
     }
@@ -160,7 +161,6 @@ function btnPress(e) {
     } else if (btn == "=") {
         if (mostRecentPress != undefined) equalsPress();
     }  else if (btn == ".") {
-        // alert(btn + " was pressed");
         addDecimalPoint();
     } else {
         operatorPress(btn);
@@ -183,7 +183,5 @@ function displayValue(value) {
 
 window.addEventListener("keydown", (e) => {
     let keyPressed = e.key;
-    if (isNumeric(keyPressed)) { 
-        btnPress(e);
-    }  
+    if (isNumeric(keyPressed)) btnPress(e);
 });
